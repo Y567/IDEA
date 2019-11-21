@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JQuery与Js对象的转换</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div id="div1">阿狗睡觉了</div>
+<div id="div2">阿强睡觉了</div>
+
+<script>
+
+    var $div = $("div");
+    alert($div[1].innerHTML);  //加索引可以传换为js对象
+    $div.html("abc");
+
+
+    //转换为从js转换为Jquery对象
+    var $div1 = $("#div2");  //参数记得是选择器
+    var divs = document.getElementsByTagName("div");
+    alert($(divs[1]).html());
+    $div1.html("再次改变了阿强的内容")
+</script>
+</body>
+</html>
