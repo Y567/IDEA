@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Day16{
+public class Day16 {
     //方法
     public static int fun(int N,String scores,int theScore){
         int count = 0;
