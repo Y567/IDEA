@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Day14 {
     //发现数学规律哎虚浮
@@ -31,8 +30,26 @@ public class Day14 {
         return sb.toString();
     }
     public static void main(String[] args){
-        Scanner in = new Scanner(System.in);
-        int m = in.nextInt();
-        System.out.println(GetSequeOddNum(m));
+/*        Scanner in = new Scanner(System.in);
+        while(in.hasNextInt()){
+            int m = in.nextInt();
+            System.out.println(GetSequeOddNum(m));
+        }*/
+
+/*
+        Queue<Integer> que = new LinkedList<>();
+        que.add(1);
+        que.add(2);
+        que.add(3);
+        System.out.println(que.remove());
+        System.out.println(que.remove());
+*/
+
+        for(int i = 0;i < 1000000000;i++){
+            if((i^2)==i){
+                System.out.println(i);
+            }
+        }
+        System.out.println();
     }
 }
