@@ -24,7 +24,7 @@
         function check(){
             $.post("${pageContext.servletContext.contextPath}/user?method=check",function (data) {
                 if(data==1){
-                    alert("你已被管理员踢下线");
+                    alert("你的身份已过期请重新登录！");
                     location.href = "${pageContext.servletContext.contextPath}/index.jsp";
                 }
             })
@@ -105,7 +105,6 @@
             background="images/main_bj.jpg" bgcolor="#FFFFFF"
             style="padding:5px; ">
             <div style="height:290px; overflow:hidden" id="content">聊天内容</div></td>
-
     </tr>
 </table>
 <table width="778" height="95" border="0" align="center"
@@ -113,12 +112,13 @@
        background="images/bottom.jpg">
 
     <form action="" id="form1" name="form1" method="post">
+        <%--隐藏表单当表单提交的时候随着提交--%>
         <input type="hidden" name="method" value="sendMessage"/>
         <tr>
             <td height="30" align="left">&nbsp;</td>
             <td height="37" align="left">
-                <input name="from" type="hidden" value="${existUser.username}">[${existUser.username} ]对
-                <input name="to" type="text" value="" size="35" readonly="readonly"> 表情
+                <input name="from" type="hidden" value="${existUser.username}">[${existUser.username}]对
+                <input name="to" type="text" value="" size="35" readonly="readonly"> 做个表情叭
                 <select name="face" class="wenbenkuang">
                     <option value="无表情的">无表情的</option>
                     <option value="微笑着" selected>微笑着</option>

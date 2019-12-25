@@ -61,7 +61,7 @@ public class UserServlet extends BaseServlet {
      */
     public String sendMessage(HttpServletRequest req, HttpServletResponse resp){
         // 1.接收数据 。
-        System.out.println("sendMessage invoke....");
+//        System.out.println("sendMessage invoke....");
         String from = req.getParameter("from"); // 发言人
         String face = req.getParameter("face"); // 表情
         String to = req.getParameter("to"); // 接收者
@@ -85,9 +85,10 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
-     * 聊天公告
+     * 聊天信息发送
      */
     public String getMessage(HttpServletRequest req, HttpServletResponse resp){
+        //1.获得Map
         String message = getServletContext().getAttribute("message").toString();
         if(message != null){
             PrintWriter writer = null;
