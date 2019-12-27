@@ -1,4 +1,4 @@
-package web.servlet;
+package web.action;
 
 import domain.User;
 import service.UserService;
@@ -85,7 +85,7 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
-     * 聊天信息发送
+     * 聊天信息获得
      */
     public String getMessage(HttpServletRequest req, HttpServletResponse resp){
         //1.获得Map
