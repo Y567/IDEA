@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JQuery快速入门</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div id="div1">无情，好残忍</div>
+<div id="div2">低调不是单调</div>
+
+<script>
+    //Jquery的方式获取所有div标签元素对象
+    var js = document.getElementsByTagName("div");
+    var jquery = $("div");
+
+    //改变其内容，js需要进行遍历，但是jquery直接调用html方法即可
+    //1.使用js方式
+    for (var i = 0; i < js.length; i++) {
+        js[i].innerHTML = "如果这都不算爱"
+    }
+
+    //2.使用Jquery方式来改变
+    jquery.html("就是这么直接了当一句话");
+
+
+    //3.js对象和JQuery对象的转换
+    //3.1 jquery转换为js
+    var changeToJs1 = jquery[0];
+    alert(changeToJs1);
+    var changeToJs2 = jquery.get(1);
+    alert(changeToJs2);
+
+    //3.2 Js对象转换为Jquery
+    var changeToJquery = $(js);
+    alert(changeToJquery);
+</script>
+</body>
+</html>

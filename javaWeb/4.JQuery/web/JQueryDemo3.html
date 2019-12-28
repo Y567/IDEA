@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JQuery事件绑定</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div id="div1">无情，好残忍</div>
+<div id="div2">低调不是单调</div>
+<input type="button" id="button1" value="点了有惊喜哦">
+
+<script>
+    //对div1绑定点击事件
+    //1.js方式
+    document.getElementById("button1").onclick = function () {
+        alert("js被点击了");
+    }
+
+    //2.JQuery方式
+    $("#button1").click(function () {
+        alert("Jquery被点击了，惊喜是骗人的")
+    })
+
+
+
+    //入口函数，可以写多个，但是window.onload只能写一个
+    $(function () {
+        alert("欢迎来到JQuery事件案例")
+    })
+
+
+    //改变样式
+    $("#div1").css("backgroundColor","blue");
+</script>
+</body>
+</html>

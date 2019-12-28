@@ -2,25 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JQuery与Js对象的转换</title>
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <title>JQuery快速入门</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 <div id="div1">阿狗睡觉了</div>
 <div id="div2">阿强睡觉了</div>
 
 <script>
+    //Jquery的方式获取标签元素对象
+    var div1 = $("#div1");
+    var div2 = $("#div2");
 
-    var $div = $("div");
-    alert($div[1].innerHTML);  //加索引可以传换为js对象
-    $div.html("abc");
-
-
-    //转换为从js转换为Jquery对象
-    var $div1 = $("#div2");  //参数记得是选择器
-    var divs = document.getElementsByTagName("div");
-    alert($(divs[1]).html());
-    $div1.html("再次改变了阿强的内容")
+    //获取内容
+    alert(div1.html());
+    alert(div2.html());
 </script>
 </body>
 </html>
