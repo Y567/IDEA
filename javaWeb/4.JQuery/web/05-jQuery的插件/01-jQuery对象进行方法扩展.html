@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>01-jQuery对象进行方法扩展</title>
+    <script src="../js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $.fn.extend({
+            checkFn:function () {
+                //将复选框全部选中,其中this指代调用该方法的对象
+                this.prop("checked",true);
+            },
+            uncheckFn:function () {
+                this.prop("checked",false);
+            }
+        });
+
+
+        $(function () {
+            //通过这种方式实现的插件可以给通过id等属性获得的JQ对象添加自身方法
+            $("#btn-check").click(function () {
+                $("input[type='checkbox']").checkFn();
+            });
+            $("#btn-uncheck").click(function () {
+                $("input[type='checkbox']").uncheckFn();
+            });
+        });
+    </script>
+</head>
+<body>
+<input id="btn-check" type="button" value="点击选中复选框" onclick="checkFn()">
+<input id="btn-uncheck" type="button" value="点击取消复选框选中" onclick="uncheckFn()">
+<br/>
+<input type="checkbox" value="football">足球
+<input type="checkbox" value="basketball">篮球
+<input type="checkbox" value="volleyball">排球
+
+</body>
+</html>
+
