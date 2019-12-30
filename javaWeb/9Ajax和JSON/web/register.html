@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax异步请求，校验用户是否存在</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        function check() {
+                //发送异步请求
+                var val = $(this).val();
+                // alert(val);
+                $.get("registerServlet",{username:val},function (data) {
+                    if("0"==data.userExist){
+                        //用户不存在可以用
+                        $("#s_username").css("color","green");
+                        $("#s_username").html(data.msg);
+                    }else{
+                        //用户存在，提示重新输入
+                        $("#s_username").css("color","red");
+                        $("#s_username").html(data.msg);
+                    }
+                },"json");
+            }
+
+            $(function () {
+                $("#username").blur(check);
+            });
+    </script>
+</head>
+<body>
+<form>
+    <input type="text" id="username" name="username" placeholder="请输入用户名">
+    <span id="s_username"></span><br/>
+    <input type="password" id="password" name="password" placeholder="请输入密码"><br/>
+    <input type="submit" value="注册">
+</form>
+</body>
+</html>
