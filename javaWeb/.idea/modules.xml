@@ -5,6 +5,12 @@
       <module fileurl="file://$PROJECT_DIR$/1.Thread/1.Thread.iml" filepath="$PROJECT_DIR$/1.Thread/1.Thread.iml" />
       <module fileurl="file://$PROJECT_DIR$/2.DayTest/2.DayTest.iml" filepath="$PROJECT_DIR$/2.DayTest/2.DayTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/3.Filter/3.Filter.iml" filepath="$PROJECT_DIR$/3.Filter/3.Filter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/4.JQuery/4.JQuery.iml" filepath="$PROJECT_DIR$/4.JQuery/4.JQuery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/5.IO/5.IO.iml" filepath="$PROJECT_DIR$/5.IO/5.IO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/6.scanFile/6.scanFile.iml" filepath="$PROJECT_DIR$/6.scanFile/6.scanFile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/7.TCPOrUDP/7.TCPOrUDP.iml" filepath="$PROJECT_DIR$/7.TCPOrUDP/7.TCPOrUDP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/8.HttpServer/8.HttpServer.iml" filepath="$PROJECT_DIR$/8.HttpServer/8.HttpServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/9Ajax和JSON/9Ajax和JSON.iml" filepath="$PROJECT_DIR$/9Ajax和JSON/9Ajax和JSON.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaWeb.iml" filepath="$PROJECT_DIR$/javaWeb.iml" />
     </modules>
   </component>

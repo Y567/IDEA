@@ -1,4 +1,5 @@
 public class TestV2 {
+    private static int i = 9;
     public static class ListNode {
         int val;
         ListNode next = null;
@@ -74,4 +75,5 @@ public class TestV2 {
                 res =res.next;
             }
         }
+
 }
