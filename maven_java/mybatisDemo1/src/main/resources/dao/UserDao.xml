@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--写到dao层的接口出-->
+<mapper namespace="dao.UserDao">
+    <!--配置查询所有的函数sql,id写的是函数名字，内容写的sql语句,分号可以写，也可以不写-->
+    <select id="findAll" resultType="domain.User">
+        select * from user
+    </select>
+</mapper>
