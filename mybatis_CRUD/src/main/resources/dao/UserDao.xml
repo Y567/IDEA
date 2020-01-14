@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定到接口-->
+<mapper namespace="dao.UserDao">
+    <select id="findAll" resultType="domain.User">
+        select * from user
+    </select>
+
+    <insert id="saveUser" parameterType="domain.User">
+        insert into user(username,birthday,sex,address) values(#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <update id="updateUser" parameterType="domain.User">
+        update user set username = #{username},birthday = #{birthday},sex = #{sex},address = #{address} where id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
+
+    <select id="findOne" parameterType="String" resultType="domain.User">
+        select * from user where username like #{username}
+    </select>
+</mapper>
