@@ -1,5 +1,6 @@
 package dao;
 
+import domain.QueryVo;
 import domain.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.management.Query;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -65,7 +67,9 @@ public class MyBatisTest {
         user.setBirthday(new Date());
         user.setSex("女");
         user.setAddress("在那遥远的小山村~");
+        System.out.println("保存之前："+user);
         userDao.saveUser(user);
+        System.out.println("保存之后："+user);
 
     }
 
@@ -86,10 +90,23 @@ public class MyBatisTest {
     }
 
     @Test
-    public void findOneTest(){
+    public void findOneTest() {
         List<User> users = userDao.findOne("%哥%");
-        for(User user: users){
+        for (User user : users) {
             System.out.println(user);
+        }
     }
-}
+
+    @Test
+    public void findByVoTest() throws IOException {
+        QueryVo queryVo = new QueryVo();
+        User user = new User();
+        user.setUsername("%哥%");
+        queryVo.setUser(user);
+        List<User> users = userDao.findByVo(queryVo);
+        for(User u: users){
+            System.out.println(u);
+        }
+
+    }
 }

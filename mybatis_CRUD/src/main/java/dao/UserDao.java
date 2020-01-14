@@ -1,5 +1,6 @@
 package dao;
 
+import domain.QueryVo;
 import domain.User;
 
 import java.util.List;
@@ -33,4 +34,10 @@ public interface UserDao {
      */
 
     List<User> findOne(String username);
+
+    /**
+     * 使用条件对象来查询
+     */
+
+    List<User> findByVo(QueryVo vo);
 }

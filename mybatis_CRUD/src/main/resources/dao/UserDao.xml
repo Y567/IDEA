@@ -10,6 +10,10 @@
     </select>
 
     <insert id="saveUser" parameterType="domain.User">
+    <!--要想知道插入后的User的id值，需要写一个标签-->
+        <selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
         insert into user(username,birthday,sex,address) values(#{username},#{birthday},#{sex},#{address})
     </insert>
 
@@ -23,5 +27,10 @@
 
     <select id="findOne" parameterType="String" resultType="domain.User">
         select * from user where username like #{username}
+    </select>
+
+    <!--使用条件对象来查询（将查询条件封装为的对象）-->
+    <select id="findByVo" resultType="domain.User" parameterType="domain.QueryVo">
+        select * from user where username like #{user.username}
     </select>
 </mapper>
