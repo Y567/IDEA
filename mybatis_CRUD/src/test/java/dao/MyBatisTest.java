@@ -56,7 +56,6 @@ public class MyBatisTest {
         for(User u: users){
             System.out.println(u);
         }
-
     }
 
 
