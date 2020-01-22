@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定到接口-->
+<mapper namespace="dao.AccountDao">
+
+    <!-- 需要定义封装一对一的映射信息的resultMap-->
+    <resultMap id="accountUserMap" type="account">
+        <!-- 前面值封装了account还没有封装User的-->
+        <id property="id" column="id"></id>
+        <result property="uid" column="uid"></result>
+        <result property="money" column="money"></result>
+
+        <!-- 这里的column表示从数据库表中那个字段得出的user,javaType指明了user的信息-->
+        <association property="user" column="uid" javaType="User">
+            <id property="id" column="id"></id>
+            <result property="username" column="username"></result>
+            <result property="birthday" column="birthday"></result>
+            <result property="sex" column="sex"></result>
+            <result property="address" column="address"></result>
+        </association>
+    </resultMap>
+    <select id="findAll" resultMap="accountUserMap">
+        select user.*,account.* FROM USER,account WHERE user.id = account.UID;
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="accountUserMap">
+        select * from account where id = #{id}
+    </select>
+</mapper>
