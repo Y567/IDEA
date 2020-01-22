@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定到接口-->
+<mapper namespace="dao.UserDao">
+
+    <!-- 配置一对多的映射信息的resultMap-->
+    <resultMap id="userMap" type="user">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="birthday" column="birthday"></result>
+        <result property="sex" column="sex"></result>
+        <result property="address" column="address"></result>
+
+        <collection property="roles" ofType="role">
+            <id property="id" column="roleId"></id>
+            <result property="roleName" column="role_Name"></result>
+            <result property="roleDesc" column="role_Desc"></result>
+        </collection>
+    </resultMap>
+    <select id="findAll" resultMap="userMap">
+        SELECT user.*,user_role.*,role.id roleId,role_Name,role_Desc FROM USER
+        LEFT OUTER JOIN user_role ON user.id=user_role.uid
+        LEFT OUTER JOIN role ON user_role.rid=role.id;
+    </select>
+</mapper>
