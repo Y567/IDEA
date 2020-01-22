@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Context>
+    <Resource
+            name="jdbc/mybatis"
+            type="javax.sql.DataSource"
+            auth="Container"
+            maxActive="20"
+            maxWait="10000"
+            maxIdle="5"
+            username="root"
+            password="yy5201314"
+            driverClassName="com.mysql.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/mybatis"
+    />
+</Context>
