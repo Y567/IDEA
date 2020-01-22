@@ -9,6 +9,15 @@
      有两种方式指明路径，URL和类路径URL是通过文件协议来写如：file:///D:文件在磁盘下的路径-->
     <properties resource="jdbcConfig.properties">
     </properties>
+
+    <!-- 用于起别名-->
+    <typeAliases>
+        <!-- 这个只能起一个别名-->
+        <!--<typeAlias type="domain.User" alias="user"></typeAlias>-->
+
+        <!-- package标签能将指定包下的所有类起别名，别名就是类名，不区分大小写-->
+        <package name="domain"></package>
+    </typeAliases>
     <!--主配置文件-->
     <environments default="mysql">
         <environment id="mysql">
@@ -24,6 +33,8 @@
 
     <!-- 指定映射配置文件的位置-->
     <mappers>
-        <mapper resource="dao/UserDao.xml"></mapper>
+        <!--<mapper resource="dao/UserDao.xml"></mapper>-->
+        <!--当在mapper里指定了包后就不用写resource和class了-->
+        <package name="dao"></package>
     </mappers>
 </configuration>
