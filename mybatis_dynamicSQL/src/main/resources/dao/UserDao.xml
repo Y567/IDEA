@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定到接口-->
+<mapper namespace="dao.UserDao">
+
+    <!-- 抽取重复的sql语句-->
+    <sql id="defaultUser">
+        select * from user
+    </sql>
+    <select id="findAll" resultType="User">
+        <include refid="defaultUser"></include>
+    </select>
+
+    <select id="findByCondition" parameterType="User" resultType="User">
+        <!--select * from user where 1=1
+        <if test="username!=null">
+            and username = #{username}
+        </if>-->
+
+        select * from user
+        <where>
+            <if test="username!=null">
+                and username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <select id="findOne" parameterType="String" resultType="User">
+        select * from user where username like #{username}
+    </select>
+
+    <!--使用条件对象来查询（将查询条件封装为的对象）-->
+    <select id="findByVo" resultType="User" parameterType="QueryVo">
+        select * from user where username like #{user.username}
+    </select>
+
+    <!-- 查询指定用户-->
+    <select id="findByQueryVo" resultType="User" parameterType="QueryVo">
+        select * from user
+        <where>
+            <foreach collection="ids" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+</mapper>
