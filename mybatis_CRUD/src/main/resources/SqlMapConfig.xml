@@ -5,15 +5,19 @@
 
 <configuration>
 
+    <!--这里可以利用properties标签来外部或内部引用连接数据库的配置，当然也可以利用以前的直接在datasource标签里写
+     有两种方式指明路径，URL和类路径URL是通过文件协议来写如：file:///D:文件在磁盘下的路径-->
+    <properties resource="jdbcConfig.properties">
+    </properties>
     <!--主配置文件-->
     <environments default="mysql">
         <environment id="mysql">
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"></property>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"></property>
-                <property name="username" value="root"></property>
-                <property name="password" value="yy5201314"></property>
+                <property name="driver" value="${driver}"></property>
+                <property name="url" value="${url}"></property>
+                <property name="username" value="${username}"></property>
+                <property name="password" value="${password}"></property>
             </dataSource>
         </environment>
     </environments>
