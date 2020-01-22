@@ -6,11 +6,25 @@
 <!-- 指定到接口-->
 <mapper namespace="dao.UserDao">
 
-    <select id="findAll" resultType="User">
-        select * from user
+    <!-- 配置一对多的映射信息的resultMap-->
+    <resultMap id="userAccountMap" type="user">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="birthday" column="birthday"></result>
+        <result property="sex" column="sex"></result>
+        <result property="address" column="address"></result>
+        <!-- 配置集合的映射封装,ofType表示集合里存放的数据类型-->
+        <collection property="accounts" ofType="account">
+            <id property="id" column="id"></id>
+            <result property="uid" column="uid"></result>
+            <result property="money" column="money"></result>
+        </collection>
+    </resultMap>
+    <select id="findAll" resultMap="userAccountMap">
+        SELECT * FROM USER AS u LEFT OUTER JOIN account AS a ON u.id=a.UID;
     </select>
 
-    <select id="findById" parameterType="int" resultType="User">
+    <select id="findById" parameterType="int" resultMap="userAccountMap">
         select * from user where id = #{id}
     </select>
 </mapper>

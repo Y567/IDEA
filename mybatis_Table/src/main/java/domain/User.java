@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
     //实现该接口是为了更好的存储和运输
@@ -10,6 +11,8 @@ public class User {
     private Date birthday;
     private String sex;
     private String address;
+    //主表与从表一对多的关系，主表的实体类需要包含从表的实体类的集合引用
+    private List<Account> accounts;
 
     public int getId() {
         return id;
@@ -51,6 +54,14 @@ public class User {
         this.address = address;
     }
 
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -59,6 +70,7 @@ public class User {
                 ", birthday=" + birthday +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
+                ", accounts=" + accounts +
                 '}';
     }
 }

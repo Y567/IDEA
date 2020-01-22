@@ -46,7 +46,6 @@ public class Account implements Serializable {
                 "id=" + id +
                 ", uid=" + uid +
                 ", money=" + money +
-                ", user=" + user +
                 '}';
     }
 }
