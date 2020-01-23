@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <properties resource="jdbcConfig.properties"></properties>
+    
+    <!--延迟加载的配置-->
+    <settings>
+        <!-- 开启mybatis的延迟加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 这个开启就是开启了立即加载，所以需要关闭-->
+        <setting name="aggressiveLazyLoading" value="false"></setting>
+    </settings>
+    <!-- 用于起别名-->
+    <typeAliases>
+        <package name="domain"></package>
+    </typeAliases>
+    <!--主配置文件-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"></property>
+                <property name="url" value="${url}"></property>
+                <property name="username" value="${username}"></property>
+                <property name="password" value="${password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 指定映射配置文件的位置-->
+    <mappers>
+        <package name="dao"></package>
+    </mappers>
+</configuration>
