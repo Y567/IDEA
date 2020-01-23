@@ -21,7 +21,8 @@
         select * from account
     </select>
 
-    <select id="findById" parameterType="int" resultMap="accountUserMap">
+    <!-- 这里不需要封装到resultMap里面，只需要封到account中,因为只需要部分信息-->
+    <select id="findById" parameterType="int" resultType="account">
         select * from account where id = #{id}
     </select>
 </mapper>

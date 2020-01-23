@@ -49,9 +49,13 @@ public class MyBatisTest {
 
 
     @Test
-    public void userFindById(){
-        User user = userDao.findById(5);
-        System.out.println(user);
+    public void userFindAll(){
+        List<User> users = userDao.findAll();
+      /*  for(User user:users){
+            System.out.println(user);
+            System.out.println("账户信息");
+            System.out.println(user.getAccounts());
+        }*/
     }
 
 

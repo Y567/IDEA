@@ -5,6 +5,10 @@
 
 <!-- 指定到接口-->
 <mapper namespace="dao.UserDao">
+
+    <resultMap id="userMap" type="user">
+        <collection property="accounts" column="id" ofType="account" select="dao.AccountDao.findById"></collection>
+    </resultMap>
     <select id="findAll" resultType="user">
         select * from user
     </select>
