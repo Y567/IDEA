@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- 加载连接数据库的配置资源-->
+    <properties resource="jdbcConfig.properties"></properties>
+    <!-- 为实体类起别名-->
+    <typeAliases>
+        <package name="domain"></package>
+    </typeAliases>
+
+    <!-- 主配置-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"></property>
+                <property name="url" value="${url}"></property>
+                <property name="username" value="${username}"></property>
+                <property name="password" value="${password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 配置带有注解的Dao层接口的位置-->
+    <mappers>
+        <package name="dao"></package>
+    </mappers>
+</configuration>
