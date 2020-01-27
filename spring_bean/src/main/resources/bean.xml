@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--指定要实现的类交给spring来实现-->
+
+    <!--第一种bean创建方式-->
+    <!--<bean id="AccountService" class="service.impl.AccountServiceImp"></bean>-->
+    <!-- 第二种方式先创建工厂对象然后利用其方法创建-->
+    <!--<bean id="instanceFactory" class="factory.InstanceFactory"></bean>-->
+    <!--<bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"></bean>-->
+
+    <!--第三种方法-->
+    <!--<bean id="accountService" class="factory.StaticFactory" factory-method="getAccountService"></bean>-->
+
+    <!-- bean的作用范围-->
+    <bean id="accountService" class="service.impl.AccountServiceImp" scope="prototype" init-method="init" destroy-method="destroy"></bean>
+</beans>
+
