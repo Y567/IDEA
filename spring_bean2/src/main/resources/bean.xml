@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--指定要实现的类交给spring来实现-->
+    <!-- 依赖注入，1.构造方法实现注入数据-->
+    <!--<bean id="AccountService" class="service.impl.AccountServiceImp">-->
+        <!--&lt;!&ndash; 用于不经常发生变化的数据注入 弊端：必须提供全部的数据，几个参数就提供几个，不然创建不出来对象&ndash;&gt;-->
+        <!--<constructor-arg name="name" value="阿狗"></constructor-arg>-->
+        <!--<constructor-arg name="age" value="19"></constructor-arg>-->
+        <!--<constructor-arg name="birthday" ref="now"></constructor-arg>-->
+    <!--</bean>-->
+
+    <!-- 配置一个日期类型的对象-->
+    <bean id="now" class="java.util.Date"></bean>
+
+
+    <!--set方法进行依赖注入 优势：注入需要的数据即可 弊端：需要的数据未被注入-->
+    <!--<bean id="AccountService" class="service.impl.AccountServiceImp2">-->
+        <!--<property name="age" value="19"></property>-->
+        <!--<property name="birthday" ref="now"></property>-->
+    <!--</bean>-->
+
+
+    <!-- 复杂类型注入-->
+    <bean id="AccountService" class="service.impl.AccountServiceImp3">
+        <property name="array">
+            <!-- List和Set可以用array标签来注入也可以用List和Set标签同用-->
+            <array>
+                <value>111</value>
+                <value>222</value>
+                <value>444</value>
+            </array>
+        </property>
+
+        <property name="map">
+            <!--可以Map标签和entry标签来注入。也可以用该标签，和Properties标签来实现-->
+            <props>
+                <prop key="aaa">狗子</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
+
