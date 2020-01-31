@@ -18,11 +18,28 @@ public class Day07 {
         }
         return A;
     }
+
+    //中心索引
+    public static int pivotIndex(int[] nums) {
+        int sum = 0;
+        for(int i:nums){
+            sum += i;
+        }
+        int leftSum = 0;
+        for(int i = 0;i < nums.length;i++){
+            if(leftSum == sum - nums[i] -leftSum){
+                return i;
+            }else{
+                leftSum += nums[i];
+            }
+        }
+        return -1;
+    }
     public static void main(String[] args) {
-        int[] i = {1,2,3,4,5,6,7,8,9};
+        /*int[] i = {1,2,3,4,5,6,7,8,9};
         i = sortArrayByParity(i);
         for(int ii: i){
             System.out.println(ii);
-        }
+        }*/
     }
 }
