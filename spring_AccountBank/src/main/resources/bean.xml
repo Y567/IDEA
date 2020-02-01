@@ -4,11 +4,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--配置代理对象-->
+    <bean id="proxyAccountService" factory-bean="beanFactory" factory-method="getAccountService"></bean>
+
+    <!--配置工厂类-->
+    <bean id="beanFactory" class="com.gyy.factory.BeanFactory">
+        <property name="accountService" ref="accountServiceImpl"></property>
+        <property name="tx" ref="transactionManager"></property>
+    </bean>
     <!--配置业务层实现类-->
     <bean id="accountServiceImpl" class="com.gyy.service.impl.AccountServiceImpl">
         <property name="accountDao" ref="accountDaoImpl"></property>
         <!--注入事务管理工具类-->
-        <property name="tx" ref="transactionManager"></property>
+        <!--<property name="tx" ref="transactionManager"></property>-->
     </bean>
 
     <!--配置持久层实现类-->

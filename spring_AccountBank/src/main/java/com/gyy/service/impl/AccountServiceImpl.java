@@ -3,18 +3,12 @@ package com.gyy.service.impl;
 import com.gyy.dao.AccountDao;
 import com.gyy.domain.Account;
 import com.gyy.service.AccountService;
-import com.gyy.utils.TransactionManager;
 
 import java.util.List;
 
 public class AccountServiceImpl implements AccountService {
 
     private AccountDao accountDao;
-    private TransactionManager tx;
-
-    public void setTx(TransactionManager tx) {
-        this.tx = tx;
-    }
 
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
