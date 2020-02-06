@@ -17,7 +17,7 @@
         url:"ajaxServlet",
         type:"POST",
         //data是访问字符串的值
-        data:{username:"高洋洋",age:23},
+        data:'{username:"高洋洋",age:23}',  //这里加上单引号因为不加的话在springMvc中封装数据时会报错
         success:function (data) {
           alert(data);//该方法是服务器成功返回数据时调用
         },
