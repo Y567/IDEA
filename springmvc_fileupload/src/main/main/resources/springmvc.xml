@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 开启spring容器创建时要扫描1包-->
+    <context:component-scan base-package="com.gyy"/>
+
+    <!-- 配置视图解析器这是用来跳转页面的 -->
+    <bean id="view" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 配置路径和后缀名 -->
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 由于前端控制器会拦截静态资源，所以需要设置不拦截-->
+    <mvc:resources location="/css/" mapping="/css/*"/>
+    <mvc:resources location="/images/" mapping="/images/*"/>
+    <mvc:resources location="/js/" mapping="/js/*"/>
+
+    <!-- 配置文件上传解析器这里的id必须为这个名字 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    <!--开启springmvc框架的支持-->
+    <mvc:annotation-driven/>
+</beans>
