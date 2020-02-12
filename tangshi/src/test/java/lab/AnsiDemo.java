@@ -12,7 +12,7 @@ import java.util.List;
 public class AnsiDemo {
     @Test
     public void splitTest(){
-        String sentence = "中华人民共和国成立了！中国人民从此站起来了！";
+        String sentence = "愿你熬得过万丈孤独，藏得下星辰大海";
         List<Term> termList = NlpAnalysis.parse(sentence).getTerms();
         for (Term term : termList) {
             //getNatureStr输出词性，getRealName输出词语
