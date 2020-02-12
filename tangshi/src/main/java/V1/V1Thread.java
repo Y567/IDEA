@@ -9,16 +9,14 @@ import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class V1Thread {
     private static MysqlConnectionPoolDataSource dataSource = new MysqlConnectionPoolDataSource();
-    private static CountDownLatch countDownLatch = new CountDownLatch(30);
     static {
         try{
-            //1.注册数据库驱动
-            Class.forName("com.mysql.jdbc.Driver");
-            //2.设置配置信息，连接的数据库，用户密码等信息
+//            //1.注册数据库驱动
+//            Class.forName("com.mysql.jdbc.Driver");
+            //1.设置配置信息，连接的数据库，用户密码等信息
             dataSource.setServerName("127.0.0.1");
             dataSource.setPort(3306);
             dataSource.setUser("root");
@@ -26,7 +24,6 @@ public class V1Thread {
             dataSource.setDatabaseName("tangshi");
             dataSource.setUseSSL(false);
             dataSource.setCharacterEncoding("UTF-8");
-
         }catch (Exception e){
             e.printStackTrace();
         }
