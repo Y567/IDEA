@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+/**
+ * 注册时访问的servlet
+ */
 @WebServlet("/registUserServlet")
 public class RegistUserServlet extends HttpServlet {
     @Override
