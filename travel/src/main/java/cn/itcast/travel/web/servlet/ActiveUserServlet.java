@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 激活用户时访问的servlet
+ */
 @WebServlet("/activeUserServlet")
 public class ActiveUserServlet extends HttpServlet {
     @Override
