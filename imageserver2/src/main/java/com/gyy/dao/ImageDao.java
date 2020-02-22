@@ -32,4 +32,12 @@ public interface ImageDao {
      * @param uid
      */
     boolean deleteImageByImageId(int imageId,int uid);
+
+    /**
+     * 根据md5判断数据库中是否有了上传的图片
+     * @param md5
+     * @param uid
+     * @return
+     */
+    Image findImageByMD5(String md5,int uid);
 }

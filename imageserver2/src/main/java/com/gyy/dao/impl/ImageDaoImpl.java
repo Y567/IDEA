@@ -47,14 +47,25 @@ public class ImageDaoImpl implements ImageDao {
 
     @Override
     public boolean deleteImageByImageId(int imageId, int uid) {
-        Image image = findByImageId(imageId, uid);
-        if(image == null){
-            return false;
-        }
         //1.定义sql语句
         String sql = "delete from image where uid = ? and imageId = ?";
         //2.执行方法
         jdbcTemplate.update(sql,uid,imageId);
         return true;
+    }
+
+    @Override
+    public Image findImageByMD5(String md5, int uid) {
+        //1.定义sql语句
+        String sql = "select * from image where md5 = ? and uid = ?";
+        Image image = null;
+        //2.执行方法
+        try{
+            image = jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<Image>(Image.class),md5,uid);
+        }catch (DataAccessException e){
+            //数据库中没有数据
+            return null;
+        }
+        return image;
     }
 }
