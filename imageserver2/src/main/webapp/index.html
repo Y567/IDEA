@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>N云相册</title>
+  <meta name="renderer" content="webkit">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="css/amazeui.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body id="blog-article-sidebar">
+<!-- header start -->
+<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div class="am-u-sm-8 am-u-sm-centered">
+        <img style="width: 15%;height: 15%" src="images/touxiang.gif" alt="">
+        <h2 class="am-hide-sm-only">愿你熬得过万丈孤独，藏得下星辰大海</h2>
+    </div>
+</header>
+<!-- header end -->
+<hr>
+
+
+<!-- nav start -->
+<nav class="am-g am-g-fixed blog-fixed blog-nav">
+<button style="background-color: #3c3c3c" class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <form action="imageUploadServlet" method="post" enctype="multipart/form-data" class="am-topbar-form am-topbar-left am-form-inline">
+        <div class="am-form-group" style="border-color: #3c3c3c">
+            <input class="am-form-field am-input-sm" type="file" name="upload" required>
+            <input class="am-form-field am-input-sm" type="submit" value="上传">
+        </div>
+    </form>
+    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="按名字查询">
+      </div>
+        <div class="am-form-group">
+            <input type="text" class="am-form-field am-input-sm" placeholder="按上传时间查询">
+        </div>
+        <div class="am-form-group">
+            <input type="button" class="am-form-field am-input-sm" value="查询">
+        </div>
+        <div class="am-form-group">
+            <input type="button" class="am-form-field am-input-sm" value="退出">
+        </div>
+    </form>
+  </div>
+</nav>
+<!-- nav end -->
+<hr>
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed blog-content">
+
+  <figure id="app" data-am-widget="figure" class="am am-figure am-figure-default " data-am-figure="{  pureview: 'true' }">
+      <div id="container">
+          <div v-for="image in images" style="border-radius: 15%">
+              <img  style="border-radius: 10%;width: 200px;height: 200px" v-bind:src="'imageShowServlet?imageId='+image.imageId">
+              <font style="font-family: SimSun;font-size: 12px">{{image.imageName}}</font><br/>
+              <font style="font-family: SimSun;font-size: 12px">上传时间:{{image.uploadTime}}</font><br/>
+              <button style="border-radius: 100%;background-color: aquamarine;text-align:right" v-on:click.stop="javascript:deleteImage(image.imageId)">扔</button>
+          </div>
+    </div> 
+  </figure>
+
+</div>
+<!-- content end -->
+ <footer class="blog-footer">
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
+        <div>
+            <h3 style="text-align: center">云相册简介</h3>
+            <p style="text-align: center">放过你的手机存储空间,让我们承受照片的压力！</p>
+        </div>
+        <div class="blog-text-center">© 2020 All rights reserved | Made with love By Y567</div>
+    </div>
+  </footer>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="js/jquery-2.2.3.min.js"></script>
+<script src="js/amazeui.min.js"></script>
+<script src="js/pinto.min.js"></script>
+<script src="js/img.js"></script>
+<!-- Vue.js -->
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            images: [
+            ]
+        },
+        methods: {
+            getImages(){
+                $.ajax({
+                    url: "imageServlet",
+                    type: "post",
+                    context: this,
+                    success:function (data) {
+                        // alert(data);
+                        this.images = data.data;
+                        $("#app").resize();
+                    }
+                })
+            },
+            deleteImage(imageId){
+                $.ajax({
+                    url: "imageDeleteServlet?imageId="+imageId,
+                    type: "post",
+                    context: this,
+                    success: function(data){
+                        if(data.flag){
+                            //删除成功了直接刷新页面
+                            this.getImages();
+                        }else{
+                            //删除失败
+                            alert(data.errorMsg);
+                        }
+                    }
+
+                })
+            }
+        }
+    });
+    app.getImages();
+</script>
+</body>
+</html>
