@@ -30,4 +30,9 @@ public class ImageServiceImpl implements ImageService {
     public boolean deleteImageByImageId(int imageId, int uid) {
         return imageDao.deleteImageByImageId(imageId,uid);
     }
+
+    @Override
+    public Image findImageByMD5(String md5, int uid) {
+        return imageDao.findImageByMD5(md5,uid);
+    }
 }
