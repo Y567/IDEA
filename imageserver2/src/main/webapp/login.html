@@ -4,13 +4,14 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE HTML>
-<html lang="zxx">
+<html lang="en">
 
 <head>
 	<title>个人图库注册和登录界面</title>
 	<!-- Meta tag Keywords -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8" />
+	<link rel="icon" type="image/png" href="images/favicon.png">
 	<meta name="keywords" content="Validate Login & Register Forms Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
 	<script>
 		addEventListener("load", function () {
@@ -35,10 +36,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <body>
-	<!-- title -->
-	<h1>
-		注册与登录界面
-	</h1>
+    <!-- 网页首页链接 -->
+	<div style="text-align: right">
+		<a href="index.html"><h1 style="color: #3c3c3c">云相册</h1>
+		</a>
+	</div>
 	<!-- //title -->
 
 	<!-- 登录部分 -->
@@ -91,7 +93,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 	<!-- copyright -->
 	<div class="footer-w3ls">
-		<h2>&copy; All rights reserved | Design by
+		<h2> © 2020 All rights reserved | Made with love By
 			<a href="#">Y567</a>
 		</h2>
 	</div>
@@ -193,6 +195,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						//登陆失败显示信息
 						if(!data.flag){
 							$("#loginMsg").html(data.errorMsg);
+						}else{
+							//登陆成功，那么直接重定向
+							location.href = "http://localhost:8080/imageserver2"
 						}
 					});
 				}
@@ -254,8 +259,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</script>
 	<!-- //password-script -->
 	<!-- //js files -->
-
-
 </body>
 
 </html>
