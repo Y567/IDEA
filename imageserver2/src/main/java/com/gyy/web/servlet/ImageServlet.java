@@ -300,7 +300,7 @@ public class ImageServlet extends BaseServlet {
 
         //1.获取当前登录的用户
         User user = ((User)req.getSession().getAttribute("user"));
-        System.out.println(user);
+//        System.out.println(user);
         ImageServiceImpl imageService = new ImageServiceImpl();
 
         //2.调用service层的方法去查询数据，返回的数据是集合
