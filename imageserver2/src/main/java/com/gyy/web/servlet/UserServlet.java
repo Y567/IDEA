@@ -113,13 +113,24 @@ public class UserServlet extends BaseServlet {
             }else{
 //                System.out.println("走到了转发的路径");
                 //说明输入成功了，我们直接转发到index.html（发现的bug:这里不能转发和ajax冲突）
-                //我们将登陆成功的用户存入ServletContext中保证以后查询图片查的是自己的
-                req.getServletContext().setAttribute("user",u);
+                //我们将登陆成功的用户存入session中保证以后查询图片查的是自己的
+                req.getSession().setAttribute("user",u);
                 info.setFlag(true);
             }
         }
-        //4.响应数据,这里只有登陆失败才会走
+        //4.响应数据
         writeValue(info,resp);
     }
 
+    /**
+     * 退出登录用
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void exit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //移除session中的用户,之后过滤器会检查
+        req.getSession().removeAttribute("user");
+    }
 }

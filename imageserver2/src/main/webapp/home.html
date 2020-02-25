@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>N云相册</title>
+  <meta name="renderer" content="webkit">
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="css/amazeui.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="all"/>
+  <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body id="blog-article-sidebar">
+<!-- header start -->
+<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div class="am-u-sm-8 am-u-sm-centered">
+        <img style="width: 15%;height: 15%" src="images/touxiang.gif" alt="">
+        <h2 class="am-hide-sm-only">愿你熬得过万丈孤独，藏得下星辰大海</h2>
+    </div>
+</header>
+<!-- header end -->
+<hr>
+
+
+<!-- nav start -->
+<nav class="am-g am-g-fixed blog-fixed blog-nav">
+<button style="background-color: #3c3c3c" class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <div style="float: left">
+        <form action="image/upload" method="post" enctype="multipart/form-data" class="navbar-form navbar-left">
+            <div class="form-group" style="border-color: #3c3c3c">
+                <input class="form-control" type="file" name="upload" required>
+                <button type="submit" class="btn btn-success">上传</button>
+            </div>
+        </form>
+    </div>
+      <div style="float: right">
+          <form style="float: right" class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                  <input name="imageName" type="text" class="form-control" placeholder="按名字查询">
+              </div>
+              <div class="form-group">
+                  <input name="uploadTime" type="text" class="form-control" placeholder="按上传时间查询">
+              </div>
+              <div class="form-group">
+                  <button type="button" class="btn btn-info" onclick="javascript:search()">查询</button>
+              </div>
+              <div class="form-group">
+                  <button type="button" class="btn btn-danger" onclick="javascript:exit()">退出</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</nav>
+<!-- nav end -->
+<hr>
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed blog-content">
+
+  <figure id="app" data-am-widget="figure" class="am am-figure am-figure-default " data-am-figure="{  pureview: 'true' }">
+      <div id="container">
+          <div v-for="image in images" style="border-radius: 15%">
+              <img  style="border-radius: 10%;width: 200px;height: 200px" v-bind:src="'image/show?imageId='+image.imageId">
+              <font style="font-family: SimSun;font-size: 12px">{{image.imageName}}</font><br/>
+              <font style="font-family: SimSun;font-size: 12px">上传时间:{{image.uploadTime}}</font><br/>
+              <button style="border-radius: 100%;background-color: aquamarine;text-align:right" v-on:click.stop="javascript:deleteImage(image.imageId)">扔</button>
+          </div>
+    </div>
+  </figure>
+    <!-- 分页标签 -->
+    <nav aria-label="Page navigation" style="text-align: center">
+        <ul id="pages" class="pagination">
+            <!--<li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+            </li>-->
+        </ul>
+    </nav>
+    <div id="count" style="text-align: center;"></div>
+
+</div>
+<!-- content end -->
+ <footer class="blog-footer">
+    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
+        <div>
+            <h3 style="text-align: center">云相册简介</h3>
+            <p style="text-align: center">放过你的手机存储空间,让我们承受照片的压力！</p>
+        </div>
+        <div class="blog-text-center">© 2020 All rights reserved | Made with love By Y567</div>
+    </div>
+  </footer>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="js/amazeui.min.js"></script>
+<script src="js/pinto.min.js"></script>
+<script src="js/img.js"></script>
+<!-- Vue.js -->
+<script>
+
+    //当前页面
+    let cur;
+    //根据名字查询的文本框的值
+    let imageName = "";
+    //根据上传时间查询的文本框的值
+    let uploadTime = "";
+    //以上三个值需要放在前面被后面的方法访问以及赋值
+
+
+    //这个是拼接字符串方法用来展示分页列表,传入的时PageBean对象
+    function splitPage(pb) {
+        let totalCount = pb.totalCount;
+        let totalPage = pb.totalPage;
+
+        //记录当前页面当删除图片后，或者上传图片成功时刷新当前页
+        cur = pb.currentPage;
+
+        //1.加上前一页的html标签
+        let lis = "";
+        if(pb.currentPage === 1){
+            //如果当前页码是第一页那么就禁止点击
+            lis += '<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
+            // alert(lis)
+        }else{
+            lis += '<li><a href="javascript:app.getImagesByPage('+(cur-1)+')" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>';
+        }
+
+        //2.循环加分页标签
+        for (let i = 1; i <= totalPage; i++) {
+            if(i === pb.currentPage){
+                //如何是当前页，那么颜色深一点让用户知道是那一页
+                lis += '<li class="active"><a href="javascript:app.getImagesByPage('+i+')">'+i+'</a></li>';
+            }else{
+                lis += '<li><a href="javascript:app.getImagesByPage('+i+')">'+i+'</a></li>';
+            }
+        }
+
+        //3.同样的这里也需要判断是不是最后一页的html标签
+        if(pb.currentPage === pb.totalPage){
+            //如果当前页码是第一页那么就禁止点击
+            lis += '<li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>';
+        }else{
+            lis += '<li><a href="javascript:app.getImagesByPage('+(cur+1)+')" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>';
+        }
+        //4.将拼接好的html放入到ul标签内部
+        $("#pages").html(lis);
+
+        //5.将记录总数和总页码数拼接好插入到div分页下面
+        let count = '共'+totalCount+'条记录,共'+totalPage+'页';
+        $("#count").html(count);
+    }
+
+    let app = new Vue({
+        el: '#app',
+        data: {
+            images: [
+            ]
+        },
+        methods: {
+            /*getImages(){
+                $.ajax({
+                    url: "image/findAll",
+                    type: "post",
+                    context: this,
+                    success:function (data) {
+                        // alert(data);
+                        if(data.flag){
+                            //数据返回成功
+                        }
+                        this.images = data.data;
+                        $("#app").resize();
+                    }
+                })
+            },*/
+
+            //去后台请求数据的方法
+            getImagesByPage(currentPage){
+                $.ajax({
+                    //通过异步请求加载图片,注意后面的name和uploadTime默认值为空，当点击了查询按钮才会获取值
+                    url: 'image/findByPage?currentPage='+currentPage+'',
+                    type: "post",
+                    context: this,
+                    data: {"imageName":imageName,"uploadTime":uploadTime},
+                    success:function (data) {
+                        // alert(data);
+                        if(data.flag){
+                            //数据返回成功，我们将数据赋值给images
+                            let pb = data.data;  //info里的data
+                            this.images = pb.data; //PageBean里的data即图片集合
+                            $("#app").resize();
+                            //调用拼接字符串的方法去显示页脚部分的列表信息
+                            splitPage(pb);
+                        }else{
+                            // alert("为0了");
+                            //
+                        }
+                    }
+                })
+            },
+
+            //删除图片是点击事件
+            deleteImage(imageId){
+                if(confirm("你确定要扔掉这张图片吗？")){
+                    $.ajax({
+                        url: "image/delete?imageId="+imageId,
+                        type: "post",
+                        context: this,
+                        success: function(data){
+                            if(data.flag){
+                                //删除成功了直接刷新当前页面
+                                this.getImagesByPage(cur);
+                            }else{
+                                //删除失败
+                                alert(data.errorMsg);
+                            }
+                        }
+                    })
+                }else{
+                    //不执行任何语句
+                }
+            }
+        }
+    });
+    // app.getImages();
+    //默认我们加载第一页
+    app.getImagesByPage(1);
+
+
+    //查询按钮
+    function search() {
+        //查询按钮的点击事件.发送异步请求去查询数据并更新前端页面
+        //1.先获取表单的输入值，然后给赋值
+        imageName = $("input[name='imageName']").val();
+        uploadTime = $("input[name='uploadTime']").val();
+        /*alert(imageName);
+        alert(uploadTime);*/
+        //2.调用获取图片集合的方法
+        app.getImagesByPage(cur);
+    }
+
+    //退出按钮
+    function exit() {
+        if(confirm("要走了吗？")){
+            //直接异步请求exit的servlet即可
+            $.get("user/exit",function () {
+                location.href="index.html";
+            })
+        }
+    }
+</script>
+</body>
+</html>

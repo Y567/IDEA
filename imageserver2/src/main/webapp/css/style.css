@@ -245,7 +245,7 @@ h1 {
 }
 
 h1 span {
-    color: #f13f57;
+    color: darkslategrey;
 }
 
 /*-- //title --*/
@@ -273,6 +273,7 @@ label {
 .container-agille {
     text-align: center;
     margin: 6em 0 5em;
+    -khtml-opacity:0.8;-moz-opacity:0.8;filter:alpha(opacity=80);filter:"alpha(opacity=80)";opacity:0.8; filter: progid:DXImageTransform.Microsoft.Alpha(opacity=80);/*兼容ie8及以下*/
 }
 
 
@@ -298,7 +299,7 @@ label {
 }
 
 .formBox h3 {
-    color: #25b4ed;
+    color: darkslategrey;
     padding: 0px 45px;
     font-size: 30px;
     margin-bottom: 40px;
@@ -311,7 +312,7 @@ label {
     line-height: 1.8;
     margin-bottom: 30px;
     letter-spacing: 1px;
-    color: #696969;
+    color: darkslategrey;
 }
 
 .formBox form {
@@ -395,7 +396,7 @@ label {
 }
 
 .formBox .forgetbox {
-    background-color: #25b4ed;
+    background-color: darkslategrey;
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
@@ -428,7 +429,7 @@ label {
     border: none;
 }
 .formBox .forgetbox .f_row u {
-    background-color: #7DC6DC;
+    background-color: darkslategrey;
 }
 
 .formBox .forgetbox .f_row u:before {
@@ -437,7 +438,7 @@ label {
 
 .formBox .forgetbox .btn {
     /* border-color: #7DC6DC; */
-    color: #25b4ed;
+    color: darkslategrey;
     background: #fff;
 }
 
@@ -609,7 +610,7 @@ label {
 
 .submit-w3 {
     transition: all 0.6s ease;
-    background-color: #25b4ed;
+    background-color: #3c3c3c;
     border: none;
     cursor: pointer;
     font-family: 'Magra', sans-serif;
@@ -636,7 +637,7 @@ label {
 }
 
 .f_link a:hover {
-    color: #25b4ed;
+    color: darkslategrey;
 }
 
 /*-- copyright --*/
@@ -654,7 +655,7 @@ label {
 }
 
 .footer-w3ls h2 a {
-    color: #25b4ed;
+    color: darkslategrey;
     -webkit-transition: 0.5s all;
     -o-transition: 0.5s all;
     -moz-transition: 0.5s all;

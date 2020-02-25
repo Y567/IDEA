@@ -80,4 +80,18 @@ public class Image implements Serializable {
     public void setMd5(String md5) {
         this.md5 = md5;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "uid=" + uid +
+                ", imageId=" + imageId +
+                ", imageName='" + imageName + '\'' +
+                ", size=" + size +
+                ", uploadTime='" + uploadTime + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", path='" + path + '\'' +
+                ", md5='" + md5 + '\'' +
+                '}';
+    }
 }

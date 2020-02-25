@@ -1,8 +1,10 @@
 package com.gyy.service;
 
 import com.gyy.domain.Image;
+import com.gyy.domain.PageBean;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ImageService {
     /**
@@ -41,4 +43,13 @@ public interface ImageService {
      */
     Image findImageByMD5(String md5,int uid);
 
+    /**
+     * 按页查询出数据库中的信息
+     * @param currentPage
+     * @param rows
+     * @param condition
+     * @param uid
+     * @return
+     */
+    PageBean<Image> findByPage(int currentPage, int rows, Map<String, String> condition, int uid);
 }

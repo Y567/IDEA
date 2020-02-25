@@ -3,6 +3,7 @@ package com.gyy.dao;
 import com.gyy.domain.Image;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ImageDao {
     /**
@@ -40,4 +41,23 @@ public interface ImageDao {
      * @return
      */
     Image findImageByMD5(String md5,int uid);
+
+    /**
+     * 返回该用户的总记录数
+     *
+     * @param condition
+     * @param uid
+     * @return
+     */
+    int findTotalCount(Map<String, String> condition, int uid);
+
+    /**
+     * 按页查询出数据库中的信息
+     * @param currentPage
+     * @param rows
+     * @param condition
+     * @param uid
+     * @return
+     */
+    List<Image> findByPage(int currentPage, int rows, Map<String, String> condition, int uid);
 }
