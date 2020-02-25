@@ -193,10 +193,7 @@ public class ImageServlet extends BaseServlet {
         } catch (FileUploadException e) {
             e.printStackTrace();
             //解析请求对象失败
-            info.setFlag(false);
-            info.setErrorMsg("因神秘力量干扰，解析文件失败");
-            //返回json对象
-            writeValue(info,resp);
+            resp.sendRedirect(req.getContextPath()+"/error.html");
             /*ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(info);
             resp.setContentType("application/json;charset=utf-8");
@@ -207,9 +204,7 @@ public class ImageServlet extends BaseServlet {
         for(FileItem item:items) {
             if(!item.getContentType().contains("image")){
                 //说明用户上传的不是图片，需要告诉用户
-                info.setFlag(false);
-                info.setErrorMsg("神秘力量阻止你上传其他类型文件");
-                writeValue(info,resp);
+                resp.sendRedirect(req.getContextPath()+"/error.html");
                 return;
             }
             //2.封装Image对象
@@ -255,10 +250,7 @@ public class ImageServlet extends BaseServlet {
             } catch (Exception e) {
                 e.printStackTrace();
                 //写入磁盘出错
-                info.setFlag(false);
-                info.setErrorMsg("因神秘力量干扰,写入文件失败");
-                //返回json对象
-                writeValue(info,resp);
+                resp.sendRedirect(req.getContextPath()+"/error.html");
                 /*ObjectMapper mapper = new ObjectMapper();
                 String json = mapper.writeValueAsString(info);
                 resp.setContentType("application/json;charset=utf-8");
