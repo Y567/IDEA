@@ -75,7 +75,7 @@ public class ImageServlet extends BaseServlet {
         User user = ((User)req.getSession().getAttribute("user"));
         //2.获取imageId
         String imageId = req.getParameter("imageId");
-        System.out.println(imageId);
+//        System.out.println(imageId);
         //3.执行方法
         ImageServiceImpl imageService = new ImageServiceImpl();
         //保存一下要删除的图片的MD5（后面决定是否删磁盘文件用到）
