@@ -18,9 +18,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -135,13 +133,13 @@ public class ImageServlet extends BaseServlet {
         Image image = imageService.findByImageId(Integer.parseInt(imageId), user.getId());
         //输出字节流到浏览器
         File file = new File(image.getPath());
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[1024*8];
         //1.创建输入流，用于写入缓冲区
-        FileInputStream in = new FileInputStream(file);
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
         //2.创建输出流，用于输出数据
         //2.1这里记得设置类型，否则会显示失败
         resp.setContentType(image.getContentType());
-        ServletOutputStream out = resp.getOutputStream();
+        BufferedOutputStream out = new BufferedOutputStream(resp.getOutputStream());
         while(true){
             int len = in.read(buffer);
             if(len == -1){
@@ -309,4 +307,39 @@ public class ImageServlet extends BaseServlet {
         //3.响应数据回前端
         writeValue(info,resp);
     }
+
+/*
+    public void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ResultInfo info = new ResultInfo();
+        System.out.println("下载文件");
+        //先获取当前的用户id
+        User user = (User)(req.getSession().getAttribute("user"));
+        //1.获取请求参数的imageId,根据该参数查询图片
+        String imageId = req.getParameter("imageId");
+        ImageService imageService = new ImageServiceImpl();
+        Image image = imageService.findByImageId(Integer.parseInt(imageId), user.getId());
+        //设置响应格式
+        resp.addHeader("Content-Disposition","attachment");
+        //输出字节流到浏览器
+        File file = new File(image.getPath());
+        byte[] buffer = new byte[1024];
+        //1.创建输入流，用于写入缓冲区
+        FileInputStream in = new FileInputStream(file);
+        //2.创建输出流，用于输出数据
+        resp.setContentType(image.getContentType());
+        ServletOutputStream out = resp.getOutputStream();
+        while(true){
+            int len = in.read(buffer);
+            if(len == -1){
+                //数据读取完毕
+                break;
+            }else{
+                out.write(buffer);
+            }
+        }
+        //记得关闭
+        in.close();
+        out.close();
+    }*/
+
 }
