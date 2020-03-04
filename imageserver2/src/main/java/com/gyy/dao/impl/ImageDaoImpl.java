@@ -59,12 +59,12 @@ public class ImageDaoImpl implements ImageDao {
 
     @Override
     public Image findImageByMD5(String md5, int uid) {
-        //1.定义sql语句
-        String sql = "select * from image where uid = ? and md5 = ?";
+        //1.定义sql语句,出现了Bug限制查一条记录。因为可能出现多个如果出现了多个就会抛异常返回null
+        String sql = "select * from image where uid = ? and md5 = ? limit 0,1";
         Image image = null;
         //2.执行方法
         try{
-            image = jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<Image>(Image.class),md5,uid);
+            image = jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<Image>(Image.class),uid,md5);
         }catch (DataAccessException e){
             //数据库中没有数据
             return null;
