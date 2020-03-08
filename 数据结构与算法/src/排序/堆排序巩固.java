@@ -1,5 +1,7 @@
 package 排序;
 
+import java.util.Random;
+
 public class 堆排序巩固 {
     //调整堆的方法
     public static void adjustHeap(int i,int[] arr,int length){
@@ -47,11 +49,18 @@ public class 堆排序巩固 {
 
 
     public static void main(String[] args) {
+        //测试一下八百万的数据
+        int[] test = new int[8000000];
+        for (int i = 0; i < test.length; i++) {
+            test[i] = new Random().nextInt(8000000);
+        }
         //测试一哈堆排序
         int[] arr = {9,8,7,6,5,4,32,56,87};
-        heapSort(arr);
-        for(int i: arr){
+        System.out.println(System.currentTimeMillis());
+        heapSort(test);
+        System.out.println(System.currentTimeMillis());
+        /*for(int i: arr){
             System.out.println(i);
-        }
+        }*/
     }
 }
