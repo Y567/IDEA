@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <title>词云分析</title>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/echarts-gl.min.js"></script>
+    <script src="js/echarts-wordcloud.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!--导航条-->
+<div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">唐诗小分析</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">谁最能作诗?<span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="#">最受青睐的词?</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">说明<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">查姓名</a></li>
+                            <li><a href="#">出其词</a></li>
+                            <li><a href="#">又或是</a></li>
+                            <li><a href="#">点名字</a></li>
+                            <li><a href="#">出其词</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form action="javascript:check()" style="float: left;" class="navbar-form navbar-left">
+                    <div class="form-group" style="float: left;">
+                        <input name="author" type="text" class="form-control" style="float:left;" placeholder="查询指定诗人的词云"/>
+                        <button type="button" class="btn btn-default" onclick="check()" style="float: left;">查询</button>
+                        <button type="button" class="btn btn-default" onclick="location.reload()" style="float: right;">刷新</button>
+                    </div>
+                </form>
+                <ul style="float: left;" class="nav navbar-nav navbar-right">
+                    <!-- 两个名字的诗人 -->
+                    <li style="float: left;" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">名字为两个字的诗人<span class="caret"></span></a>
+                        <ul id="two" class="dropdown-menu">
+                        </ul>
+                    </li>
+                    <!-- 三个名字的诗人 -->
+                    <li style="float: left;" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">名字为三个字的诗人<span class="caret"></span></a>
+                        <ul id="three" class="dropdown-menu">
+                        </ul>
+                    </li>
+                    <li style="float: left;" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">关于我<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://y567.gitee.io/">博客</a></li>
+                            <li><a href="https://github.com/Y567/">GitHub</a></li>
+                            <li><a href="http://39.106.222.97/images/">我的相册</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+<div id="words" style="width: 100%;height:100%;position:absolute;margin: 0"></div>
+    <script>
+        //词云的
+        var words = echarts.init(document.getElementById('words'));
+
+        //查询方法
+        function search(name){
+            $.ajax({
+                url:"wordServlet?name="+name+"",
+                type:"get",
+                dataType:"json",
+                success: function (data) {
+                    var datas = [];
+                    if (!data.flag) {
+                        //没有数据
+                        alert(data.reason);
+                    }
+                    var map = data.data;
+
+                    for (var key in map) {
+                        datas.push({
+                            name: key,
+                            value: map[key]
+                        })
+                    }
+                    var maskImage = new Image();
+                    maskImage.src = 'images/word' + Math.ceil(Math.random() * 3) + '.jpg';
+                    if(name == null||name == undefined||"" == name){
+                        name="大家-"
+                    }else{
+                        name += "-";
+                    }
+                    maskImage.onload = function () {
+                        words.setOption({
+                            title: {
+                                text: ''+name+'喜欢的词',
+                                x: 'center',
+                                textStyle: {
+                                    fontSize: 18
+                                }
+                            },
+
+                            backgroundColor: '#FFFFFF',
+                            series: [{
+                                name: '用词分析',
+                                type: 'wordCloud',
+                                // size: ['4%', '10%'],
+                                sizeRange: [12,35],
+                                //textRotation: [0, 45, 90, -45],
+                                rotationRange: [-90, 90],
+                                // shape: 'diamond',
+                                maskImage: maskImage,
+                                textPadding: 0,
+                                autoSize: {
+                                    enable: false,
+                                    minSize: 6
+                                },
+                                textStyle: {
+                                    normal: {
+                                        color: function () {
+                                            return 'rgb(' + [
+                                                Math.round(Math.random() * 160),
+                                                Math.round(Math.random() * 160),
+                                                Math.round(Math.random() * 160)
+                                            ].join(',') + ')';
+                                        }
+                                    },
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowColor: '#333'
+                                    }
+                                },
+                                data: datas
+                            }]
+                        });
+                    }
+                }
+            });
+        }
+
+        $(function () {
+            // search();
+            search("");
+            //用来加载下拉列表中的数据
+            findPoetByName(2);
+            findPoetByName(3);
+        });
+
+        function check() {
+            var name = $("input[name='author']").val();
+            var regx = /^([\u4E00-\u9FA5\∙\•\・\●]){1,8}$/;  //汉字2到7个汉字
+            if(regx.test(name)){
+                search(name);
+            }else{
+                alert("请输入正确的姓名哦!");
+            }
+        }
+
+        //查询诗人的方法
+        function findPoetByName(i){
+            $.get("poetServlet?name="+i+"",function (data) {
+                //1.获得诗人的名字
+                var names = data.data;
+                //2.遍历然后拼接字符串
+                var lis = "";
+                for (var j = 0; j < names.length; j++) {
+                    var begin = "<li><a href=javascript:search('";
+
+                    lis = lis + begin + names[j];
+
+                    var end = "')>"+names[j]+"</a></li>";
+                    lis = lis + end;
+                }
+                //3.最后追加到无序列表里
+                if(i == 2){
+                    $("#two").html(lis);
+                }else{
+                    $("#three").html(lis);
+                }
+            });
+        }
+
+        window.addEventListener("resize",function(){
+            words.resize();
+        });
+
+    </script>
+</body>
+</html>
