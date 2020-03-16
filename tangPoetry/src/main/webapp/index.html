@@ -1,0 +1,179 @@
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>唐诗分析</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <meta name="keywords" content="Validate Login & Register Forms Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
+    <script src="js/echarts.min.js"></script>
+    <script src="js/echarts-gl.min.js"></script>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/echarts-wordcloud.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!--导航条-->
+<div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">唐诗小分析</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">谁最能作诗?<span class="sr-only">(current)</span></a></li>
+                    <li><a href="words.html">最受青睐的词?</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">说明<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">输入[0,99]之间的数字</a></li>
+                            <li><a href="#">得出作诗量在此区间的</a></li>
+                            <li><a href="#">所有诗人以及其作诗量</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form style="float: left;" class="navbar-form navbar-left">
+                    <div style="float: left;" class="form-group">
+                        <input name="left" type="text" class="form-control" style="float: left;" placeholder="下限">
+                        <input name="right" type="text" class="form-control" style="float: left;" placeholder="上限">
+                        <button type="button" class="btn btn-default" style="float: left;" onclick="check()">查询</button>
+                        <button type="button" onclick="location.reload()" class="btn btn-default" style="float: right;">刷新</button>
+                    </div>
+                </form>
+                <ul style="float: left;" class="nav navbar-nav navbar-right">
+                    <li style="float: left;" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">关于我<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://y567.gitee.io/">博客</a></li>
+                            <li><a href="https://github.com/Y567/">GitHub</a></li>
+                            <li><a href="http://39.106.222.97/images/">我的相册</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+<div id="main" style="width: 100%;height:100%;position: absolute"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var chart = echarts.init(document.getElementById('main'));
+    // 指定图表的配置项和数据
+    chart.setOption({
+        tooltip: {},
+        legend: {
+            data:['作诗量']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '作诗量',
+            type: 'bar',
+            data: []
+        }]
+    });
+
+    $(function () {
+        //键盘监听
+        document.onkeydown = function(ev){
+            var event = ev || event;
+            if(event.keyCode===13){
+                check();
+            }
+        };
+        //默认提交的是查询所有古诗集
+        search(1,39);
+    });
+
+    function check() {
+        var left = $("input[name='left']").val();
+        var right = $("input[name='right']").val();
+        var regx = /^\d{1,2}$/;  //表示正整数
+        if(regx.test(right) && regx.test(left)){
+            //说明用户输入的是正整数
+
+            if(left > right){
+                alert("请输入正确区间哦！");
+            }else{
+                search(left,right);
+            }
+        }else{
+            alert("请输入[0-99]间的数字哦!");
+        }
+    }
+    function search(left,right){
+        $.ajax({
+            url:"echartServlet?left="+left+"&right="+right+"",
+            type:"get",
+            dataType:"json",
+            success: function (data) {
+                // 填入数据
+                var name = [];
+                var total = [];
+                var poet = data.data;
+                for (var i in poet) {
+                    name.push(poet[i].name);
+                    total.push(poet[i].count);
+                }
+                chart.hideLoading();
+                chart.setOption({
+                    xAxis: {
+                        data: name
+                    },
+                    title: {
+
+                        show: name.length === 0,
+
+                        extStyle: {
+
+                            color: "grey",
+
+                            fontSize: 20
+
+                        },
+
+                        text: data.reason,
+
+                        left: "center",
+
+                        top: "center"
+
+                    },
+                    series: [{
+                        data: total
+                    }]
+                });
+            }
+        });
+    }
+
+    window.addEventListener("resize",function(){
+        chart.resize();
+    });
+
+
+</script>
+
+</body>
+
+</html>
