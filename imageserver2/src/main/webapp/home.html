@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,18 +20,23 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
-<body id="blog-article-sidebar" style="background: url(images/bg.jpg) no-repeat;background-size: cover;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;-ms-background-size: cover;background-attachment: fixed;background-position: center;">>
+<body id="blog-article-sidebar" style="background: url(images/bg.jpg) no-repeat;background-size: cover;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;-ms-background-size: cover;background-attachment: fixed;background-position: center;">
 <!-- header start -->
 <header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
     <div class="am-u-sm-8 am-u-sm-centered">
         <img style="width: 15%;height: 15%" src="images/touxiang.gif" alt="">
-        <h2 class="am-hide-sm-only">愿你熬得过万丈孤独，藏得下星辰大海</h2>
+        <h2>愿你熬得过万丈孤独，藏得下星辰大海</h2>
     </div>
 </header>
 <!-- header end -->
 <hr>
-
-
+<!--这里是查看大图的div-->
+<div id="bigImage" onclick="hideBigImage()" style="position: fixed;z-index: 999;top: 0;right: 0;bottom: 0;left: 0;background-repeat: no-repeat;background-attachment: fixed;background-position: center;background-color: rgba(52, 52, 52, 0.8);background-size: 50%;display: none;">
+    <!-- 居中元素 -->
+    <div style="text-align: center;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
+        <img id="bImage" src="" alt="图片正在加载中"/>
+    </div>
+</div>
 <!-- nav start -->
 <nav class="am-g am-g-fixed blog-fixed blog-nav">
 <button style="background-color: #3c3c3c" class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -40,7 +45,7 @@
     <div style="float: left">
         <form action="image/upload" method="post" enctype="multipart/form-data" class="navbar-form navbar-left">
             <div class="form-group" style="border-color: #3c3c3c">
-                <input class="form-control" type="file" name="upload" required>
+                <input class="form-control" type="file" name="upload"  multiple required>
                 <button type="submit" class="btn btn-success">上传</button>
             </div>
         </form>
@@ -71,10 +76,11 @@
   <figure id="app" data-am-widget="figure" class="am am-figure am-figure-default " data-am-figure="{  pureview: 'true' }">
       <div id="container">
           <div v-for="image in images" style="border-radius: 15%">
-              <img  style="border-radius: 10%;width: 200px;height: 200px" v-bind:src="'image/show?imageId='+image.imageId">
+              <img id="sImage" style="border-radius: 10%;width: 200px;height: 200px;" v-bind:src="'image/show?imageId='+image.imageId" onclick="showBigImage()" alt="图片正在拼命加载">
               <font style="font-family: SimSun;font-size: 12px">{{image.imageName}}</font><br/>
               <font style="font-family: SimSun;font-size: 12px">上传时间:{{image.uploadTime}}</font><br/>
-              <button style="border-radius: 100%;background-color: aquamarine;text-align:right" v-on:click.stop="javascript:deleteImage(image.imageId)">扔</button>
+              <button style="border-radius: 100%;background-color: aquamarine;float: left" v-on:click.stop="deleteImage(image.imageId)">扔</button>
+              <!--<button style="border-radius: 100%;background-color: aquamarine;float: right;" v-on:click.stop="downloadImage(image.imageId)">摘</button>-->
           </div>
     </div>
   </figure>
@@ -92,7 +98,6 @@
         </ul>
     </nav>
     <div id="count" style="text-align: center;"></div>
-
 </div>
 <!-- content end -->
  <footer class="blog-footer">
@@ -105,16 +110,15 @@
     </div>
   </footer>
 
-<!--<![endif]-->
-<!--[if lte IE 8 ]>
-<script src="js/amazeui.ie8polyfill.min.js"></script>
-<![endif]-->
-<script src="js/amazeui.min.js"></script>
+<!--&lt;!&ndash;<![endif]&ndash;&gt;-->
+<!--&lt;!&ndash;[if lte IE 8 ]>-->
+<!--<script src="js/amazeui.ie8polyfill.min.js"></script>-->
+<!--<![endif]&ndash;&gt;-->
+<!--<script src="js/amazeui.min.js"></script>-->
 <script src="js/pinto.min.js"></script>
 <script src="js/img.js"></script>
 <!-- Vue.js -->
 <script>
-
     //当前页面
     let cur;
     //根据名字查询的文本框的值
@@ -155,9 +159,9 @@
         //3.同样的这里也需要判断是不是最后一页的html标签
         if(pb.currentPage === pb.totalPage){
             //如果当前页码是第一页那么就禁止点击
-            lis += '<li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>';
+            lis += '<li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
         }else{
-            lis += '<li><a href="javascript:app.getImagesByPage('+(cur+1)+')" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>';
+            lis += '<li><a href="javascript:app.getImagesByPage('+(cur+1)+')" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
         }
         //4.将拼接好的html放入到ul标签内部
         $("#pages").html(lis);
@@ -191,57 +195,70 @@
             },*/
 
             //去后台请求数据的方法
-            getImagesByPage(currentPage){
+            getImagesByPage(currentPage) {
                 $.ajax({
                     //通过异步请求加载图片,注意后面的name和uploadTime默认值为空，当点击了查询按钮才会获取值
-                    url: 'image/findByPage?currentPage='+currentPage+'',
+                    url: 'image/findByPage?currentPage=' + currentPage + '',
                     type: "post",
                     context: this,
-                    data: {"imageName":imageName,"uploadTime":uploadTime},
-                    success:function (data) {
+                    data: {"imageName": imageName, "uploadTime": uploadTime},
+                    success: function (data) {
                         // alert(data);
-                        if(data.flag){
+                        if (data.flag) {
                             //数据返回成功，我们将数据赋值给images
                             let pb = data.data;  //info里的data
                             this.images = pb.data; //PageBean里的data即图片集合
                             $("#app").resize();
                             //调用拼接字符串的方法去显示页脚部分的列表信息
                             splitPage(pb);
-                        }else{
+                        } else {
                             // alert("为0了");
                             //
                         }
                     }
                 })
             },
-
             //删除图片是点击事件
-            deleteImage(imageId){
-                if(confirm("你确定要扔掉这张图片吗？")){
+            deleteImage(imageId) {
+                if (confirm("你确定要扔掉这张图片吗？")) {
                     $.ajax({
-                        url: "image/delete?imageId="+imageId,
+                        url: "image/delete?imageId=" + imageId,
                         type: "post",
                         context: this,
-                        success: function(data){
-                            if(data.flag){
+                        success: function (data) {
+                            if (data.flag) {
                                 //删除成功了直接刷新当前页面
                                 this.getImagesByPage(cur);
-                            }else{
+                            } else {
                                 //删除失败
                                 alert(data.errorMsg);
                             }
                         }
                     })
-                }else{
+                } else {
                     //不执行任何语句
                 }
+            },
+
+            //下载图片时访问的
+            downloadImage(imageId) {
+                $.ajax({
+                    url: "image/download?imageId=" + imageId,
+                    type: "post",
+                    context: this,
+                    success: function (data) {
+                        if (!data.flag) {
+                            //删除成功了直接刷新当前页面
+                            alert(data.errorMsg);
+                        }
+                    }
+                })
             }
         }
     });
     // app.getImages();
     //默认我们加载第一页
     app.getImagesByPage(1);
-
 
     //查询按钮
     function search() {
@@ -263,6 +280,17 @@
                 location.href="index.html";
             })
         }
+    }
+    //查看大图
+    function showBigImage() {
+        let sImage = document.getElementById("sImage").src;
+        // alert(sImage);
+        $("#bImage").attr("src",sImage);
+        $("#bigImage").show("slow");
+    }
+    //隐藏图片
+    function hideBigImage() {
+        $("#bigImage").hide("slow");
     }
 </script>
 </body>
