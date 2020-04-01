@@ -34,7 +34,7 @@
 <div id="bigImage" onclick="hideBigImage()" style="position: fixed;z-index: 999;top: 0;right: 0;bottom: 0;left: 0;background-repeat: no-repeat;background-attachment: fixed;background-position: center;background-color: rgba(52, 52, 52, 0.8);background-size: 50%;display: none;">
     <!-- 居中元素 -->
     <div style="text-align: center;position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
-        <img id="bImage" src="" alt="图片正在加载中"/>
+        <img id="bImage" width="70%" height="70%" src="" alt="图片正在加载中"/>
     </div>
 </div>
 <!-- nav start -->
@@ -43,10 +43,10 @@
 
   <div class="am-collapse am-topbar-collapse" id="blog-collapse">
     <div style="float: left">
-        <form action="image/upload" method="post" enctype="multipart/form-data" class="navbar-form navbar-left">
+        <form id="fileForm" action="image/upload" onsubmit="return checkFileSize()" method="post" enctype="multipart/form-data" class="navbar-form navbar-left">
             <div class="form-group" style="border-color: #3c3c3c">
-                <input class="form-control" type="file" name="upload"  multiple required>
-                <button type="submit" class="btn btn-success">上传</button>
+                <input id="files" class="form-control" type="file" name="upload"  multiple required>
+                <input type="submit" class="btn btn-success" value="上传"/>
             </div>
         </form>
     </div>
@@ -76,7 +76,7 @@
   <figure id="app" data-am-widget="figure" class="am am-figure am-figure-default " data-am-figure="{  pureview: 'true' }">
       <div id="container">
           <div v-for="image in images" style="border-radius: 15%">
-              <img id="sImage" style="border-radius: 10%;width: 200px;height: 200px;" v-bind:src="'image/show?imageId='+image.imageId" onclick="showBigImage()" alt="图片正在拼命加载">
+              <img id="sImage" style="border-radius: 10%;width: 200px;height: 200px;" v-bind:src="'image/show?imageId='+image.imageId" v-on:click="showBigImage(image.imageId)" alt="图片正在拼命加载">
               <font style="font-family: SimSun;font-size: 12px">{{image.imageName}}</font><br/>
               <font style="font-family: SimSun;font-size: 12px">上传时间:{{image.uploadTime}}</font><br/>
               <button style="border-radius: 100%;background-color: aquamarine;float: left" v-on:click.stop="deleteImage(image.imageId)">扔</button>
@@ -253,6 +253,12 @@
                         }
                     }
                 })
+            },
+
+            //查看大图
+            showBigImage(imageId) {
+                $("#bImage").attr("src", "image/show?imageId=" + imageId);
+                $("#bigImage").show("slow");
             }
         }
     });
@@ -281,16 +287,23 @@
             })
         }
     }
-    //查看大图
-    function showBigImage() {
-        let sImage = document.getElementById("sImage").src;
-        // alert(sImage);
-        $("#bImage").attr("src",sImage);
-        $("#bigImage").show("slow");
-    }
+
     //隐藏图片
     function hideBigImage() {
         $("#bigImage").hide("slow");
+    }
+
+    //判断文件的大小
+    function checkFileSize() {
+        let files = document.getElementById("files").files;
+        for (let i = 0; i < files.length; i++) {
+            if(files[i].size > 1024 * 1024 * 20){
+                alert("请上传小于20M的图片!");
+                document.getElementById("fileForm").reset();
+                return false;
+            }
+        }
+        return true;
     }
 </script>
 </body>
