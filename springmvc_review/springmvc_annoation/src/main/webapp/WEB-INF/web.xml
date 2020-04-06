@@ -1,0 +1,29 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <!--配置servlet-->
+  <servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!--配置初始化参数来扫描springmvc配置文件-->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:springmvc.xml</param-value>
+    </init-param>
+    <!--配置一启动服务器就创建servlet 然后让servlet扫描springmvc文件-->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <!--拦截所有请求-->
+  <!--/和/*的区别：-->
+  <!--/*会对普通的jsp文件也会进行一系列的解析等，而/却不会-->
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+</web-app>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 开启spring容器创建时要扫描包-->
+    <context:component-scan base-package="com.gyy.controller"/>
+
+    <!--让springmvc不去处理静态资源-->
+    <mvc:default-servlet-handler/>
+
+    <!-- 配置视图解析器这是用来跳转页面的 -->
+    <!--<bean id="view" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--&lt;!&ndash; 配置路径和后缀名 &ndash;&gt;-->
+        <!--<property name="prefix" value="/WEB-INF/pages/"/>-->
+        <!--<property name="suffix" value=".jsp"/>-->
+    <!--</bean>-->
+
+    <!--开启springmvc框架的支持，
+    这个注解做了两件事1.注册了DefaultAnnotationHandlerMappering
+                     2.注册了AnnotationMethodHandlerAdapter实例
+                     这两个实例分别在类级别和方法级别处理-->
+    <mvc:annotation-driven/>
+    <!--使得自定义转换器生效 加上conversion-service -->
+</beans>
