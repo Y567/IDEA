@@ -7,7 +7,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html lang="en">
 
 <head>
-	<title>云相册登录和注册</title>
+	<title>快来登录吧！</title>
 	<!-- Meta tag Keywords -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8"/>
@@ -37,7 +37,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 
 	<div>
-		<h1 style="color: #3c3c3c;text-align: center">云相册</h1>
+		<h1 style="color: #3c3c3c;text-align: center">云图床</h1>
 		<h2 style="color: #3c3c3c;text-align: center">这里记录你的开心和不开心</h2>
 	</div>
 	<!-- //title -->
@@ -156,11 +156,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			return regx.test(password);
 		}
 
+		function test(){
+			if(confirm("想要直接登录体验吗？（体验账号！！上传的图片所有人都可以看到）")){
+				$("#login_email").val("1592221415@qq.com");
+				$("#login_password").val("yy5201314");
+			}
+		}
 		/**
 		 * 入口函数
 		 */
 		$(function () {
-			//入口方法
+			//入口方法(这个体验功能是为了让Hr和面试官快速进入无需注册)
+			setTimeout(test,1200);
 			//这是注册模块
 			$("#registerForm").submit(function () {
 				//返回true则提交表单，否则不提交
@@ -171,7 +178,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						if(data.flag){
 							//说明注册成功,我们需要提醒用户邮箱的发送，只要点击邮件才能注册成功
 							//提示信息
-							$("#registerMsg").html("恭喜您注册成功！请点击邮件完成注册！");
+							$("#registerMsg").html("恭喜您注册成功！快去登陆吧！");
 						}
 						else{
 							//注册失败,如果注册失败，那么就说明邮箱已被注册
