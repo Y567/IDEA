@@ -47,8 +47,11 @@ public class UserServlet extends BaseServlet {
             userService.saveUser(user);
             info.setFlag(true);
             //查询出来用户,为了得到那个id
-            user = userService.findByEmail(user.getEmail());
-            MailUtils.sendMail(user.getEmail(),"<a href='http://127.0.0.1:8080/imageserver2/user/active?id="+user.getId()+"'>点击激活账户</a>","个人图库");
+//            user = userService.findByEmail(user.getEmail());
+//            MailUtils.sendMail(user.getEmail(),"<a href='http://127.0.0.1:8080/imageserver2/user/active?id="+user.getId()+"'>点击激活账户</a>","个人图库");
+//            MailUtils.sendMail(user.getEmail(),"<a href='http://106.54.208.39:8080/imageserver/user/active?id="+user.getId()+"'>点击激活账户</a>","个人图库");
+            //取消了邮箱激活，因为腾讯云25端口没有解封
+
         }else{
             //注册失败说明数据库中存在此邮箱
             info.setFlag(false);
@@ -104,7 +107,7 @@ public class UserServlet extends BaseServlet {
         //3.处理结果，如果为null,说明邮箱或密码不正确
         if(u == null){
             info.setFlag(false);
-            info.setErrorMsg("邮箱或密码输入错误");
+            info.setErrorMsg("密码输入错误");
         }else{
             if(!"Y".equalsIgnoreCase(u.getStatus())){
                 //说明该用户并未激活

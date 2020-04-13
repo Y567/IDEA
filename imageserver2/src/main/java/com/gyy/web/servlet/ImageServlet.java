@@ -6,6 +6,7 @@ import com.gyy.domain.ResultInfo;
 import com.gyy.domain.User;
 import com.gyy.service.ImageService;
 import com.gyy.service.impl.ImageServiceImpl;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -162,6 +163,7 @@ public class ImageServlet extends BaseServlet {
      * @return
      */
     private String parseFileName(String name){
+        System.out.println(name);
         if(name.contains(":")){
             //说明上传的图片中的名字存在路径.我们要去掉,一定要+1否则还是错的
             return name.substring(name.lastIndexOf("\\")+1);
@@ -179,7 +181,6 @@ public class ImageServlet extends BaseServlet {
      * @throws IOException
      */
     public void upload(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ResultInfo info = new ResultInfo();
         //1.做准备工作,获得upload对象，该对象可以解析请求
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
@@ -199,31 +200,37 @@ public class ImageServlet extends BaseServlet {
             return;
         }
 
-        for(FileItem item:items) {
+        //先遍历一遍文件项确保没有非图片类型的文件
+        for(FileItem item:items){
             if(!item.getContentType().contains("image")){
                 //说明用户上传的不是图片，需要告诉用户
                 resp.sendRedirect(req.getContextPath()+"/error.html");
                 return;
             }
+        }
+
+        //获取session中的登录信息
+        User user = (User) (req.getSession().getAttribute("user"));
+        //开始处理文件
+        for(FileItem item:items) {
             //2.封装Image对象
             Image image = new Image();
-            //2.1获取session中的登录信息
-            User user = (User) (req.getSession().getAttribute("user"));
+
             image.setUid(user.getId());
 
-            //2.2格式化上传时间
+            //2.1格式化上传时间
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             image.setUploadTime(format.format(new Date()));
 
-            //2.3获取文件的名字
+            //2.2获取文件的名字
             image.setImageName(parseFileName(item.getName()));
             image.setContentType(item.getContentType());
 
-            //2.4利用md5，用图片的二进制数据进行求MD5加密码，将来存储一样的图片时可以节省磁盘空间
+            //2.3利用md5，用图片的二进制数据进行求MD5加密码，将来存储一样的图片时可以节省磁盘空间
             image.setMd5(DigestUtils.md2Hex(item.get()));
 
-            //2.5设置路径,用MD5可以防止覆盖图片
-            String path = req.getSession().getServletContext().getRealPath("/images/"+image.getMd5()+image.getImageName());
+            //2.4设置路径,用MD5可以防止覆盖图片
+            String path = req.getSession().getServletContext().getRealPath("/images/"+image.getMd5());
             image.setPath(path);
             image.setSize((int) item.getSize());
 
@@ -243,18 +250,20 @@ public class ImageServlet extends BaseServlet {
                 }
                 //4.不管磁盘写不写入，数据库中的记录都要写进去
                 imageService.insertImage(image);
-                //这里我们可以重定向刷新页面
-                resp.sendRedirect(req.getContextPath()+"/home.html");
             } catch (Exception e) {
                 e.printStackTrace();
                 //写入磁盘出错
                 resp.sendRedirect(req.getContextPath()+"/error.html");
+                return;
                 /*ObjectMapper mapper = new ObjectMapper();
                 String json = mapper.writeValueAsString(info);
                 resp.setContentType("application/json;charset=utf-8");
                 resp.getWriter().write(json);*/
             }
         }
+        //因为是多文件，所以当所有文件都处理完毕后再重定向
+        //这里我们可以重定向刷新页面
+        resp.sendRedirect(req.getContextPath()+"/home.html");
     }
 
 
