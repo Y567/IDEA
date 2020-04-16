@@ -1,5 +1,7 @@
 package 数据类型相关;
 
+import java.lang.String;
+
 public class ShortTest {
     public static void main(String[] args) {
         short s1 = 1;
