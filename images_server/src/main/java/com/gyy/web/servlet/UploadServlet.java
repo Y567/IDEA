@@ -1,24 +1,29 @@
-package cn.itcast.travel.web.servlet;
+package com.gyy.web.servlet;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.util.Collection;
 
-@WebServlet("/exitServlet")
-public class ExitServlet extends HttpServlet {
+@WebServlet("/upload")
+@MultipartConfig
+public class UploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //1.需要退出的话，我们只需要将session删除就好了。
-        req.getSession().invalidate();
-        //2.删除后直接重定向到首页
-        resp.sendRedirect(req.getContextPath()+"/login.html");
+        req.setCharacterEncoding("utf-8");
+        Collection<Part> parts = req.getParts();
+        for (Part part : parts) {
+            System.out.println(part.getContentType());
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.doPost(req, resp);
+        this.doPost(req,resp);
     }
 }
