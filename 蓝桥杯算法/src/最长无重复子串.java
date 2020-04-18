@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +18,6 @@ public class 最长无重复子串 {
         //是一个无重复元素的子字符串
         return true;
     }
-
 
     //解决问题方法
     public static String findLongestUnique(String s){
