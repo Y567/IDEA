@@ -11,8 +11,6 @@ import java.io.IOException;
 @WebFilter("/*")
 public class LoginFilter implements Filter {
 
-    private User user = new User();
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -28,6 +26,7 @@ public class LoginFilter implements Filter {
 //        System.out.println("过滤器拦截了");
         //1.获取访问路径
         String uri = req.getRequestURI();
+
         if(uri.contains("index.html") || uri.contains("/user/") || uri.contains("/js/") || uri.contains("/images/") || uri.contains("/css/") || uri.contains("/fonts/")){
             //如果包含这些路径说明用户就是想登录，那么就通行
             chain.doFilter(req,resp);
