@@ -17,11 +17,11 @@
     <mvc:default-servlet-handler/>
 
     <!-- 配置视图解析器这是用来跳转页面的 -->
-    <!--<bean id="view" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-        <!--&lt;!&ndash; 配置路径和后缀名 &ndash;&gt;-->
-        <!--<property name="prefix" value="/WEB-INF/pages/"/>-->
-        <!--<property name="suffix" value=".jsp"/>-->
-    <!--</bean>-->
+    <bean id="view" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 配置路径和后缀名 -->
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
 
     <!--开启springmvc框架的支持，
     这个注解做了两件事1.注册了DefaultAnnotationHandlerMappering
