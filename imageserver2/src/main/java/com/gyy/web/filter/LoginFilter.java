@@ -27,7 +27,7 @@ public class LoginFilter implements Filter {
 
         //1.获取访问路径
         String uri = req.getRequestURI();
-
+        //这里再添加一个reference的白名单，让我自己的博客可以不用登录即可使用
         if(uri.contains("index.html") || uri.contains("/user/") || uri.contains("/js/") || uri.contains("/images/") || uri.contains("/css/") || uri.contains("/fonts/")){
             //如果包含这些路径说明用户就是想登录，那么就通行
             chain.doFilter(req,resp);
