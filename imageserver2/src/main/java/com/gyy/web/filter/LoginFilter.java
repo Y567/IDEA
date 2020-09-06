@@ -24,6 +24,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
 //        System.out.println("过滤器拦截了");
+
         //1.获取访问路径
         String uri = req.getRequestURI();
 
