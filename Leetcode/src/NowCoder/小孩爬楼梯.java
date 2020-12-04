@@ -1,8 +1,9 @@
 package NowCoder;
 
+
 public class 小孩爬楼梯 {
-    //计算的函数
-    public int getCounts(int n){
+    //计算
+    public static int getCounts(int n){
         if(n == 1){
             return 1;
         }else if(n == 2){
@@ -24,8 +25,24 @@ public class 小孩爬楼梯 {
             return forth;
         }
     }
-    public int countWays(int n) {
+    //递归写法
+    public static int getCount(int n){
+        if(n == 1){
+            return 1;
+        }else if(n == 2){
+            return 2;
+        }else if(n == 3){
+            return 4;
+        }else {
+            return getCount(n-1)+getCount(n-2)+getCount(n-3);
+        }
+    }
+    public static int countWays(int n) {
         // write code here
-        return getCounts(n);
+        return getCount(n);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(countWays(4));
     }
 }
